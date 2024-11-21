@@ -16,6 +16,11 @@
 # reward function will need to be defined as 
 # reward(state, state_prime) --> reward
 # only intested in what has changed in the state of the game, then you can write code to check state attribute diferences and determine positive and negativer values for reward
+# let users use default rward function logic in envionrment by setting speicfic reward values for hard coded game outcomes
+# set_rewards(rewards) --> None
+# rewards is a list of a reward values for speicific outcomes
+# EX: rewards get mapped to [win, lose, ]
+
 
 # for players using RL, in order to train, they make steps in the eviornment and 
 
