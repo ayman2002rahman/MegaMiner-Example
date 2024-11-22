@@ -10,8 +10,12 @@ class Game_Env():
         self.stacks = [[] for _ in range(7)]
         self.turns = 0 # number of valid turns made
     
+    def reset(self):
+        self.player = 1
+        self.stacks = [[] for _ in range(7)]
+
     def get_grid(self):
-        grid = [[0] * 7] * 6
+        grid = [[0] * 7 for _ in range(6)]
         for j, stack in enumerate(self.stacks):
             for i, disk in enumerate(stack):
                 grid[5-i][j] = disk
@@ -123,20 +127,32 @@ class Game_Env():
 
         return False
 
+    def get_valid_actions(self):
+        actions = []
+        for j in range(7):
+            if len(self.stacks[j]) != 6:
+                actions.append(j)
+        return actions
+
     def step(self, action): # --> state, reward, terminated
         # invalid action
         if len(self.stacks[action]) == 6:
-            return self.get_state(), -10, False
+            return self.get_state(), -10, False, 'Invalid'
         
         # drop disk
         self.stacks[action].append(self.player)
 
         # check if won
         if self.solution():
-            return self.get_state(), 10, True
+            win_string = 'Player1 Wins' if self.player == 1 else 'Player2 Wins'
+            return self.get_state(), 10, True, win_string
         
-        self.turns += 1
         self.player = 2 if self.player == 1 else 1
-        return self.get_state(), 0, self.turns == 42
+        disks = 0
+        for stack in self.stacks:
+            disks += len(stack)
+        if disks == 42:
+            return self.get_state(), 0, True, 'Stalemate'
+        return self.get_state(), 0, disks == 42, ''
     
         
