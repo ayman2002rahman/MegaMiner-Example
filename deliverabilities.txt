@@ -28,3 +28,8 @@ ai vs ai architecture
 - given the ai file from both team members, 
 
 human vs human architecture
+
+====
+what do we want contestants to have access to?
+- Have access to envionrment library for their specific game language (python, c++, and java)
+- Have ai file for their language for them to fill out their function
