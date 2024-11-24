@@ -1,7 +1,10 @@
-import pygame
+#import pygame
 import sys
 
-action_space = [0, 1, 2, 3, 4, 5, 6, 7] # indices for col positions to drop 
+# Game constants
+ACTION_SPACE = [0, 1, 2, 3, 4, 5, 6] # indices for col positions to drop 
+ROWS = 6
+COLUMNS = 7
 # valid actions may be a subset of action space due to full columns
 
 class Game_Env():
@@ -13,6 +16,7 @@ class Game_Env():
     def reset(self):
         self.player = 1
         self.stacks = [[] for _ in range(7)]
+        return self.get_state(), 'Game Start'
 
     def get_grid(self):
         grid = [[0] * 7 for _ in range(6)]
@@ -134,7 +138,7 @@ class Game_Env():
                 actions.append(j)
         return actions
 
-    def step(self, action): # --> state, reward, terminated
+    def step(self, action): # --> state, reward, terminated, result
         # invalid action
         if len(self.stacks[action]) == 6:
             return self.get_state(), -10, False, 'Invalid'

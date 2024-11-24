@@ -21,7 +21,6 @@
 # rewards is a list of a reward values for speicific outcomes
 # EX: rewards get mapped to [win, lose, ]
 
-
 # for players using RL, in order to train, they make steps in the eviornment and 
 
 ai vs ai architecture
@@ -33,3 +32,8 @@ human vs human architecture
 what do we want contestants to have access to?
 - Have access to envionrment library for their specific game language (python, c++, and java)
 - Have ai file for their language for them to fill out their function
+
+===
+- What do we want organizers to have access to?
+- Be able to easily to simulate games with an ai
+- store all team ai files in a directory called ai
