@@ -1,2 +1,5 @@
 We need a station during megaminer to run peoples ai against other contestants if they wanted
 To test out what they have against another player
+
+Future feature idea: develop our own tornament bracket system that automatically is linked up with this system
+to manage brackets and automatically play out the games and visualize them in one sitting

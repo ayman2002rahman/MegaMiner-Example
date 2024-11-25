@@ -5,8 +5,8 @@ from game.game_env import Game_Env
 pygame.init()
 
 # Set up the Pygame display
-screen_width = 700
-screen_height = 600
+screen_width = 1000
+screen_height = 1000
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption('Connect Four Game Playback')
 
@@ -50,7 +50,7 @@ def playback_game(file_path):
             show_game_state(image)
             
             # Pause between turns (e.g., 1000 milliseconds = 1 second)
-            pygame.time.wait(1000)
+            pygame.time.wait(650)
             
             # Check for quit event (if user closes the window)
             for event in pygame.event.get():

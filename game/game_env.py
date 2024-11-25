@@ -10,19 +10,19 @@ COLUMNS = 7
 class Game_Env():
     def __init__(self):
         self.player = 1 # (1 or 2 to represent current player)
-        self.stacks = [[] for _ in range(7)]
+        self.stacks = [[] for _ in range(COLUMNS)]
         self.turns = 0 # number of valid turns made
     
     def reset(self):
         self.player = 1
-        self.stacks = [[] for _ in range(7)]
+        self.stacks = [[] for _ in range(COLUMNS)]
         return self.get_state(), 'Game Start'
 
     def get_grid(self):
         grid = [[0] * 7 for _ in range(6)]
         for j, stack in enumerate(self.stacks):
             for i, disk in enumerate(stack):
-                grid[5-i][j] = disk
+                grid[ROWS-1-i][j] = disk
         return grid
 
     def get_state(self):
@@ -31,7 +31,7 @@ class Game_Env():
     def visualize(self):
         # Canvas dimensions
         canvas_width = 700
-        canvas_height = 600
+        canvas_height = 650
         cell_size = 100  # Size of each grid cell (100x100 pixels)
         
         # Create a blank image (white canvas)
@@ -46,11 +46,14 @@ class Game_Env():
         empty_color = (200, 200, 200)  # Light grey for empty spaces
         
         # Draw the Connect Four grid (7 columns, 6 rows)
-        for row in range(6):
-            for col in range(7):
+        for col in range(7):
+            for row in range(6):
+                # Reverse the row index to draw from bottom to top
+                token_row = 5 - row  # Bottom-most row corresponds to row 0
+                
                 # Calculate the position of the top-left corner of each cell
                 x0 = col * cell_size
-                y0 = row * cell_size + 50  # Offset to leave space for the "Turn" text
+                y0 = token_row * cell_size + 50  # Offset to leave space for the "Turn" text
                 x1 = x0 + cell_size
                 y1 = y0 + cell_size
                 
@@ -68,10 +71,9 @@ class Game_Env():
         # Draw the current player's turn at the top
         font = ImageFont.load_default()
         turn_text = f"Player {self.player}'s Turn"
-        draw.text((canvas_width // 2 - 60, 10), turn_text, fill='black', font=font)
+        #draw.text((canvas_width // 2 - 60, 10), turn_text, fill='black', font=font)
         
         return image
-
 
     # ==== helper functions to help game logic ====
 
