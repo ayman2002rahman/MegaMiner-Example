@@ -1,4 +1,4 @@
-from game_env import Game_Env
+from game.game_env import Game_Env
 
 env = Game_Env()
 env.step(0)

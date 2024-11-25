@@ -5,7 +5,7 @@ import os
 file_path = os.path.abspath('../../')
 if file_path not in sys.path:
     sys.path.append(file_path)
-from game_env import ACTION_SPACE
+from game.game_env import ACTION_SPACE
 
 # PUT YOUR IMPORTS HERE
 

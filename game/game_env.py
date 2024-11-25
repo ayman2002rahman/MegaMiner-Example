@@ -1,5 +1,5 @@
-#import pygame
 import sys
+from PIL import Image, ImageDraw, ImageFont
 
 # Game constants
 ACTION_SPACE = [0, 1, 2, 3, 4, 5, 6] # indices for col positions to drop 
@@ -28,66 +28,50 @@ class Game_Env():
     def get_state(self):
         return self.player, self.get_grid()
     
-    def visualize(state): # visualize a specific state (this uses pygame)
-        pygame.init()
+    def visualize(self):
+        # Canvas dimensions
+        canvas_width = 700
+        canvas_height = 600
+        cell_size = 100  # Size of each grid cell (100x100 pixels)
+        
+        # Create a blank image (white canvas)
+        image = Image.new('RGB', (canvas_width, canvas_height), color='white')
+        
+        # Create a drawing context
+        draw = ImageDraw.Draw(image)
+        
+        # Colors for the players' tokens
+        player1_color = (255, 0, 0)  # Red for player 1
+        player2_color = (255, 255, 0)  # Yellow for player 2
+        empty_color = (200, 200, 200)  # Light grey for empty spaces
+        
+        # Draw the Connect Four grid (7 columns, 6 rows)
+        for row in range(6):
+            for col in range(7):
+                # Calculate the position of the top-left corner of each cell
+                x0 = col * cell_size
+                y0 = row * cell_size + 50  # Offset to leave space for the "Turn" text
+                x1 = x0 + cell_size
+                y1 = y0 + cell_size
+                
+                # Draw the empty grid background
+                draw.rectangle([x0, y0, x1, y1], outline='black', fill=empty_color)
+                
+                # Draw the token in the column if there are any
+                if len(self.stacks[col]) > row:
+                    token = self.stacks[col][row]
+                    if token == 1:
+                        draw.ellipse([x0 + 10, y0 + 10, x1 - 10, y1 - 10], fill=player1_color)
+                    elif token == 2:
+                        draw.ellipse([x0 + 10, y0 + 10, x1 - 10, y1 - 10], fill=player2_color)
+        
+        # Draw the current player's turn at the top
+        font = ImageFont.load_default()
+        turn_text = f"Player {self.player}'s Turn"
+        draw.text((canvas_width // 2 - 60, 10), turn_text, fill='black', font=font)
+        
+        return image
 
-        # Constants
-        ROWS, COLS = 6, 7
-        CELL_SIZE = 100
-        RADIUS = CELL_SIZE // 2 - 10
-        WIDTH = COLS * CELL_SIZE
-        HEIGHT = (ROWS + 1) * CELL_SIZE  # Extra row for the current player display
-        WHITE = (255, 255, 255)
-        BLUE = (0, 0, 255)
-        RED = (255, 0, 0)
-        YELLOW = (255, 255, 0)
-        BLACK = (0, 0, 0)
-
-        # Extract state information
-        player, grid = state
-
-        # Initialize screen
-        screen = pygame.display.set_mode((WIDTH, HEIGHT))
-        pygame.display.set_caption("Connect Four")
-
-        def draw_board():
-            # Draw the board background
-            for row in range(ROWS):
-                for col in range(COLS):
-                    pygame.draw.rect(screen, BLUE, (col * CELL_SIZE, (row + 1) * CELL_SIZE, CELL_SIZE, CELL_SIZE))
-                    pygame.draw.circle(screen, BLACK, (col * CELL_SIZE + CELL_SIZE // 2, (row + 1) * CELL_SIZE + CELL_SIZE // 2), RADIUS)
-
-            # Draw the pieces on the grid
-            for row in range(ROWS):
-                for col in range(COLS):
-                    if grid[row][col] == 1:
-                        pygame.draw.circle(screen, RED, (col * CELL_SIZE + CELL_SIZE // 2, (row + 1) * CELL_SIZE + CELL_SIZE // 2), RADIUS)
-                    elif grid[row][col] == 2:
-                        pygame.draw.circle(screen, YELLOW, (col * CELL_SIZE + CELL_SIZE // 2, (row + 1) * CELL_SIZE + CELL_SIZE // 2), RADIUS)
-
-        # Main loop to display the board
-        clock = pygame.time.Clock()
-        while True:
-            screen.fill(WHITE)
-
-            # Event handling
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit()
-
-            # Display current player's turn
-            font = pygame.font.SysFont("Arial", 36)
-            turn_text = f"Player {player}'s Turn"
-            text_surface = font.render(turn_text, True, RED if player == 1 else YELLOW)
-            screen.blit(text_surface, (10, 10))
-
-            # Draw the board and update the display
-            draw_board()
-            pygame.display.flip()
-
-            # Limit the frame rate
-            clock.tick(30)
 
     # ==== helper functions to help game logic ====
 

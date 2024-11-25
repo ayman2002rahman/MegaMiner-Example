@@ -1,6 +1,6 @@
 import subprocess
 import json
-from game_env import Game_Env
+from game.game_env import Game_Env
 
 def get_action(player_script, state):
     # Serialize state to JSON and send it to the external script.
@@ -31,11 +31,11 @@ def run_game(env, player1_script, player2_script, record_file):
             f.write(game_message)
             f.write('\n')
             # game debugging stuff
-            final_grid = state[1]
-            for row in final_grid:
-                for j in range(7):
-                    f.write(str(row[j]))
-                f.write('\n')
+            # final_grid = state[1]
+            # for row in final_grid:
+            #     for j in range(7):
+            #         f.write(str(row[j]))
+            #     f.write('\n')
         turn += 1
 
     f.close()
